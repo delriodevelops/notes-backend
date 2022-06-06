@@ -47,7 +47,7 @@ app.post('/api/notes',(req,res)=>{
         const newNote= {
             id: notes.length===0 ? 1 : maxId +1,
             content: note.content,
-            date: new Date()
+            date: new Date().toLocaleDateString()
         }
     
         notes = [newNote,...notes];
@@ -66,5 +66,5 @@ app.use((req,res)=>{
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT,()=>{
-    console.log('server en http://localhost:' + PORT)
+    console.log('server en https://evening-bastion-34691.herokuapp.com/' + PORT)
 })
