@@ -1,6 +1,20 @@
 const express = require('express');
 const logger = require('./LoggerMiddleware');
 const cors = require('cors')
+const notesRouter = require('./src/routes/notes')
+
+
+
+//extraer
+const connectionString = 'mongodb+srv://delrio:u12@notas.a3v4e.mongodb.net/?retryWrites=true&w=majority'
+const mongoose = require('mongoose');
+
+mongoose.connect(connectionString)
+    .then(()=>console.log('Database to MongoDB Ok'))
+    .catch(err=>console.error(err))
+//extraer
+
+
 
 const app = express();
 
@@ -10,52 +24,16 @@ app.use(express.json());
 
 
 
-let notes = []
-
 
 app.get('/', (req,res)=>{
     res.send('<h1>queee</h1>')
 })
-app.get('/api/notes',(req,res)=>{
-    res.json(notes)
-})
 
-app.get('/api/notes/:id',(req,res)=>{
-    const id = req.params.id
+app.use('/api',notesRouter)
 
-    const note = notes.find(prod=> prod.id == id)
 
-    !!note ? res.json(note) : res.status(404).end()
-})
 
-app.delete('/api/notes/:id',(req,res)=>{
-    const id = req.params.id
-    notes = notes.filter(note=> note.id!=id)
-    res.status(204).end()
-})
 
-app.post('/api/notes',(req,res)=>{
-    const note = req.body
-
-    if(!note || !note.content){
-        return res.status(400).json({
-            error:'no hay contenido'
-        })
-    }  else {
-        const ids = notes.map(prod=>prod.id)
-        const maxId = Math.max(...ids)  
-        const newNote= {
-            id: notes.length===0 ? 1 : maxId +1,
-            content: note.content,
-            date: new Date().toLocaleDateString()
-        }
-    
-        notes = [newNote,...notes];
-        res.status(201).json(note)
-
-    }
-
-})
 
 app.use((req,res)=>{
     res.status(404).json({

@@ -4,13 +4,11 @@ let cont = 0;
 
 const logger = app.use((req,res,next)=>{
     cont++
-    console.log(`Petición: <<${cont}>>`)
-    console.log(`Request: <<${req}>>`)
-    console.log(`Metodo <<${req.method}>>`)
-    console.log(`Ruta: <<${req.path}>>`)
-    console.log(`Body: <<${req.body}>>`)
+    console.log(`Petición: "${cont}"`)
+    console.log(`Metodo "${req.method}"`)
+    console.log(`Ruta: "${req.path}"`)
     console.log(`Respuesta: <<${res}>>`)
-    console.log('________')
+    console.log('_____________________')
     next();
 })
 
