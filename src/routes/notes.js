@@ -52,8 +52,8 @@ router.post('/notes',(req,res)=>{
 //actualizar
 router.put('/notes/:id',(req,res)=>{
     const {id} = req.params;
-    const {content,date}= req.body;
-    const newTask = {content,date};
+    const {content,date,important,completed}= req.body;
+    const newTask = {content,date,important,completed};
 
     noteSchema
         .findByIdAndUpdate(id, newTask )
